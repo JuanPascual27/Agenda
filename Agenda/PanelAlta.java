@@ -4,8 +4,9 @@ import java.awt.event.*;
 
 public class PanelAlta extends JPanel implements ActionListener{
    private JButton btnGuardar, btnSalir;
-   private JTextField txtNombre, txtApellidoP, txtApellidoN, txtTelefono, txtDirE, txtDiaC, txtMesC, txtYearC;
+   private JTextField txtNombre, txtApellidoP, txtApellidoM, txtTelefono, txtDirE, txtDiaC, txtMesC, txtYearC;
    private JPanel p;
+   private ManejoPersona mP = new ManejoPersona();
    
    public PanelAlta(JPanel p){
       this.p = p;
@@ -18,10 +19,10 @@ public class PanelAlta extends JPanel implements ActionListener{
       txtApellidoP = new JTextField(30);
       add(lblApellidoP);
       add(txtApellidoP);
-      JLabel lblApellidoN = new JLabel("Apellido Materno: ", JLabel.CENTER);
-      txtApellidoN = new JTextField(30);
-      add(lblApellidoN);
-      add(txtApellidoN);
+      JLabel lblApellidoM = new JLabel("Apellido Materno: ", JLabel.CENTER);
+      txtApellidoM = new JTextField(30);
+      add(lblApellidoM);
+      add(txtApellidoM);
       JLabel lblTelefono = new JLabel("Celular: ", JLabel.CENTER);
       txtTelefono = new JTextField(10);
       add(lblTelefono);
@@ -54,17 +55,23 @@ public class PanelAlta extends JPanel implements ActionListener{
    
    public void actionPerformed(ActionEvent e){
       if(e.getSource() == btnGuardar){
-         if(txtNombre.getText() == null || txtNombre.getText().isEmpty()){ 
-            JOptionPane.showMessageDialog(null, "Debes colocar al menos el nombre", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+         if((txtNombre.getText() == null || txtNombre.getText().isEmpty()) || (txtApellidoP.getText() == null || txtApellidoP.getText().isEmpty())){ 
+            JOptionPane.showMessageDialog(null, "Debes colocar al menos el nombre y el apellido paterno", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             txtNombre.requestFocus();
          }else if(txtTelefono.getText() == null || txtTelefono.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Debes capturar su teléfono", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             txtTelefono.requestFocus();
          }else{
+            mP.agregar(txtNombre.getText(), txtApellidoP.getText(), txtApellidoM.getText(), txtTelefono.getText(), txtDirE.getText(), txtDiaC.getText(), txtMesC.getText(), txtYearC.getText());
             JOptionPane.showMessageDialog(null, "Se guardarán los datos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             txtNombre.setText(null);		
+            txtApellidoP.setText(null);
+            txtApellidoM.setText(null);
             txtTelefono.setText("");
-            txtApellidoP.setText("");
+            txtDirE.setText("");
+            txtDiaC.setText("");
+            txtMesC.setText("");
+            txtYearC.setText("");
             txtNombre.requestFocus();
          }
       }

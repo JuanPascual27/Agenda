@@ -4,6 +4,7 @@ import java.awt.event.*;
 
 public class PanelMenu extends JPanel implements ActionListener{
    private JButton btnAlta, btnBuscar, btnEliminar, btnModificar, btnSalir;
+   ManejoPersona mP = new ManejoPersona();
    
    public PanelMenu(){
       setLayout(new GridLayout(5,1));
