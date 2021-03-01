@@ -3,72 +3,119 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class PanelBuscar extends JPanel implements ActionListener{
-   private JButton btnGuardar, btnSalir;
-   private JTextField txtNombre, txtApellidoP, txtApellidoN, txtTelefono, txtDirE, txtDiaC, txtMesC, txtYearC;
+   private JButton btnBuscar, btnSalir, btnLimpiar;
+   private JTextField txtNombre, txtApellidoP, txtApellidoM, txtTelefono, txtDirE, txtDiaC, txtMesC, txtYearC;
    private JPanel p;
+   private Persona objPersona;
+   ManejoPersona mP = new ManejoPersona();
    
    public PanelBuscar(JPanel p){
       this.p = p;
-      setLayout(new GridLayout(9,2));
-      JLabel lblNombre = new JLabel("Nombre: ", JLabel.CENTER);
+      JLabel lblEspacio = new JLabel("");
+      JLabel lblTitle = new JLabel("Ingrese lo siguiente:", JLabel.RIGHT);
+      add(lblTitle);
+      add(lblEspacio);
+      setLayout(new GridLayout(11,2));
+      JLabel lblNombre = new JLabel("Nombre: ", JLabel.RIGHT);
       txtNombre = new JTextField(20);
       add(lblNombre);
       add(txtNombre);
-      JLabel lblApellidoP = new JLabel("Apellido Paterno: ", JLabel.CENTER);
+      JLabel lblApellidoP = new JLabel("Apellido Paterno: ", JLabel.RIGHT);
       txtApellidoP = new JTextField(30);
       add(lblApellidoP);
       add(txtApellidoP);
-      JLabel lblApellidoN = new JLabel("Apellido Materno: ", JLabel.CENTER);
-      txtApellidoN = new JTextField(30);
-      add(lblApellidoN);
-      add(txtApellidoN);
-      JLabel lblTelefono = new JLabel("Celular: ", JLabel.CENTER);
+      JLabel lblApellidoM = new JLabel("Apellido Materno: ", JLabel.RIGHT);
+      txtApellidoM = new JTextField(30);
+      txtApellidoM.setEditable(false);
+      add(lblApellidoM);
+      add(txtApellidoM);
+      JLabel lblTelefono = new JLabel("Celular: ", JLabel.RIGHT);
       txtTelefono = new JTextField(10);
       add(lblTelefono);
       add(txtTelefono);
-      JLabel lblDirE = new JLabel("Direccion Electronica: ", JLabel.CENTER);
+      JLabel lblDirE = new JLabel("Direccion Electronica: ", JLabel.RIGHT);
       txtDirE = new JTextField(30);
+      txtDirE.setEditable(false);
       add(lblDirE);
       add(txtDirE);
-      JLabel lblDiaC = new JLabel("Dia: ", JLabel.CENTER);
+      JLabel lblDiaC = new JLabel("Dia: ", JLabel.RIGHT);
       txtDiaC = new JTextField(30);
+      txtDiaC.setEditable(false);
       add(lblDiaC);
       add(txtDiaC);
-      JLabel lblMesC = new JLabel("Mes: ", JLabel.CENTER);
+      JLabel lblMesC = new JLabel("Mes: ", JLabel.RIGHT);
       txtMesC = new JTextField(10);
+      txtMesC.setEditable(false);
       add(lblMesC);
       add(txtMesC);
-      JLabel lblYearC = new JLabel("Año: ", JLabel.CENTER);
+      JLabel lblYearC = new JLabel("Año: ", JLabel.RIGHT);
       txtYearC = new JTextField(10);
+      txtYearC.setEditable(false);
       add(lblYearC);
       add(txtYearC);
       
-      btnGuardar = new JButton("Guardar");
-      btnGuardar.addActionListener(this);
+      btnBuscar = new JButton("Buscar");
+      btnBuscar.addActionListener(this);
       btnSalir = new JButton("Salir");
       btnSalir.addActionListener(this);
+      btnLimpiar = new JButton("Limpiar");
+      btnLimpiar.addActionListener(this);
       
-      add(btnGuardar);
+      add(btnBuscar);
+      add(btnLimpiar);
       add(btnSalir);
    }
    
    public void actionPerformed(ActionEvent e){
-      if(e.getSource() == btnGuardar){
-         if(txtNombre.getText() == null || txtNombre.getText().isEmpty()){ 
-            JOptionPane.showMessageDialog(null, "Debes colocar al menos el nombre", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+      if(e.getSource() == btnBuscar){
+         if((txtNombre.getText() == null || txtNombre.getText().isEmpty()) || (txtApellidoP.getText() == null || txtApellidoP.getText().isEmpty())){ 
+            JOptionPane.showMessageDialog(null, "Debes colocar el nombre y el apellido paterno", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             txtNombre.requestFocus();
          }else if(txtTelefono.getText() == null || txtTelefono.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Debes capturar su teléfono", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debes colocar el teléfono", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             txtTelefono.requestFocus();
          }else{
-            JOptionPane.showMessageDialog(null, "Se guardarán los datos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
-            txtNombre.setText(null);		
-            txtTelefono.setText("");
-            txtApellidoP.setText("");
-            txtNombre.requestFocus();
+            if(mP.buscar(txtNombre.getText(), txtApellidoP.getText(), txtTelefono.getText()) != null){
+               JOptionPane.showMessageDialog(null, "Se han encontrado los datos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+               objPersona = mP.buscar(txtNombre.getText(), txtApellidoP.getText(), txtTelefono.getText());
+               txtNombre.setText(objPersona.getNombre());
+               txtNombre.setEditable(false);
+               txtApellidoP.setText(objPersona.getApellidoP());
+               txtApellidoP.setEditable(false);
+               txtApellidoM.setText(objPersona.getApellidoM());
+               txtTelefono.setText(objPersona.getTelefono());
+               txtTelefono.setEditable(false);
+               txtDirE.setText(objPersona.getDirE());
+               txtDiaC.setText(objPersona.getDiaC());
+               txtMesC.setText(objPersona.getMesC());
+               txtYearC.setText(objPersona.getYearC());
+            }else{
+               JOptionPane.showMessageDialog(null, "No se encontro", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+               txtNombre.setText("");
+               txtApellidoP.setText("");
+               txtApellidoM.setText("");
+               txtTelefono.setText("");
+               txtDirE.setText("");
+               txtDiaC.setText("");
+               txtMesC.setText("");
+               txtYearC.setText("");
+            }
          }
       }
-      
+      if(e.getSource() == btnLimpiar){
+         JOptionPane.showMessageDialog(null, "Se limpiaran los datos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+         txtNombre.setText("");
+         txtNombre.setEditable(true);
+         txtApellidoP.setText("");
+         txtApellidoP.setEditable(true);
+         txtApellidoM.setText("");
+         txtTelefono.setText("");
+         txtTelefono.setEditable(true);
+         txtDirE.setText("");
+         txtDiaC.setText("");
+         txtMesC.setText("");
+         txtYearC.setText("");
+      }
       if(e.getSource() == btnSalir){
          ((JFrame)SwingUtilities.getWindowAncestor(p)).setVisible(true);
          ((JFrame)SwingUtilities.getWindowAncestor(this)).dispose();

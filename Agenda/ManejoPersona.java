@@ -1,4 +1,5 @@
 import java.util.*;
+
 public class ManejoPersona{
    private static ArrayList<Persona> arrPersona = new ArrayList<Persona>(); 
    private Persona objPersona;
@@ -23,21 +24,28 @@ public class ManejoPersona{
       return arrPersona;
    }
    
-   public void mostrar(){
-      System.out.println("... Personas en la Agenda ...");
-      Iterator<Persona> itrPersona = arrPersona.iterator();
-      while(itrPersona.hasNext()){
-	      Persona persona = itrPersona.next();
-	      System.out.println(persona.getNombre() + "  "
-			+ persona.getApellidoP() + "  "
-			+ persona.getTelefono() + "  "
-			+ persona.getDirE());
+   public Persona buscar(String nom, String apeP, String tel){
+      Persona p = null;
+      for(int i = 0; i < arrPersona.size(); i++){
+         objPersona = arrPersona.get(i);
+         if(objPersona.getNombre().equals(nom) && objPersona.getApellidoP().equals(apeP) && objPersona.getTelefono().equals(tel))
+            p = objPersona;
       }
+      return p;
    }
    
-   public void buscar(){
+   public void modificar(Persona o, String nom, String apeP, String apeM, String tel, String dir, String dia, String mes, String year){
+      o.setNombre(nom);
+      o.setApellidoP(apeP);
+      o.setApellidoM(apeM);
+      o.setTelefono(tel);
+      o.setDirE(dir);
+      o.setDiaC(dia);
+      o.setMesC(mes);
+      o.setYearC(year);
    }
    
-   public void eliminar(){
+   public void eliminar(Persona e){
+      arrPersona.remove(e);
    }
 }

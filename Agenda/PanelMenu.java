@@ -4,6 +4,10 @@ import java.awt.event.*;
 
 public class PanelMenu extends JPanel implements ActionListener{
    private JButton btnAlta, btnBuscar, btnEliminar, btnModificar, btnSalir;
+   ManejoPersona mP = new ManejoPersona();
+   JFrameBuscar jFB;
+   JFrameModificar jFM;
+   JFrameEliminar jFE;
    
    public PanelMenu(){
       setLayout(new GridLayout(5,1));
@@ -28,15 +32,27 @@ public class PanelMenu extends JPanel implements ActionListener{
    }
    
    public void actionPerformed(ActionEvent e){
-      ((JFrame)SwingUtilities.getWindowAncestor(this)).setVisible(false);
       if(e.getSource() == btnAlta){
+         ((JFrame)SwingUtilities.getWindowAncestor(this)).setVisible(false);
          JFrameAlta jFA = new JFrameAlta(this);
       }else if(e.getSource() == btnBuscar){
-         JFrameBuscar jFB = new JFrameBuscar(this);
+         if(mP.datos().size() > 0){
+            ((JFrame)SwingUtilities.getWindowAncestor(this)).setVisible(false);
+            jFB = new JFrameBuscar(this);
+         }else
+            JOptionPane.showMessageDialog(null, "No hay datos en la agenda", "Aviso", JOptionPane.INFORMATION_MESSAGE);
       }else if(e.getSource() == btnModificar){
-         JFrameModificar jFM = new JFrameModificar(this);
+         if(mP.datos().size() > 0){
+            ((JFrame)SwingUtilities.getWindowAncestor(this)).setVisible(false);
+            jFM = new JFrameModificar(this);
+         }else
+            JOptionPane.showMessageDialog(null, "No hay datos en la agenda", "Aviso", JOptionPane.INFORMATION_MESSAGE);
       }else if(e.getSource() == btnEliminar){
-         JFrameEliminar jFE = new JFrameEliminar(this);
+         if(mP.datos().size() > 0){
+            ((JFrame)SwingUtilities.getWindowAncestor(this)).setVisible(false);
+            jFE = new JFrameEliminar(this);
+         }else
+            JOptionPane.showMessageDialog(null, "No hay datos en la agenda", "Aviso", JOptionPane.INFORMATION_MESSAGE);
       }  
       if(e.getSource() == btnSalir)
          System.exit(0);

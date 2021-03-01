@@ -4,41 +4,42 @@ import java.awt.event.*;
 
 public class PanelAlta extends JPanel implements ActionListener{
    private JButton btnGuardar, btnSalir;
-   private JTextField txtNombre, txtApellidoP, txtApellidoN, txtTelefono, txtDirE, txtDiaC, txtMesC, txtYearC;
+   private JTextField txtNombre, txtApellidoP, txtApellidoM, txtTelefono, txtDirE, txtDiaC, txtMesC, txtYearC;
    private JPanel p;
+   private ManejoPersona mP = new ManejoPersona();
    
    public PanelAlta(JPanel p){
       this.p = p;
       setLayout(new GridLayout(9,2));
-      JLabel lblNombre = new JLabel("Nombre: ", JLabel.CENTER);
+      JLabel lblNombre = new JLabel("Nombre: ", JLabel.RIGHT);
       txtNombre = new JTextField(20);
       add(lblNombre);
       add(txtNombre);
-      JLabel lblApellidoP = new JLabel("Apellido Paterno: ", JLabel.CENTER);
+      JLabel lblApellidoP = new JLabel("Apellido Paterno: ", JLabel.RIGHT);
       txtApellidoP = new JTextField(30);
       add(lblApellidoP);
       add(txtApellidoP);
-      JLabel lblApellidoN = new JLabel("Apellido Materno: ", JLabel.CENTER);
-      txtApellidoN = new JTextField(30);
-      add(lblApellidoN);
-      add(txtApellidoN);
-      JLabel lblTelefono = new JLabel("Celular: ", JLabel.CENTER);
+      JLabel lblApellidoM = new JLabel("Apellido Materno: ", JLabel.RIGHT);
+      txtApellidoM = new JTextField(30);
+      add(lblApellidoM);
+      add(txtApellidoM);
+      JLabel lblTelefono = new JLabel("Celular: ", JLabel.RIGHT);
       txtTelefono = new JTextField(10);
       add(lblTelefono);
       add(txtTelefono);
-      JLabel lblDirE = new JLabel("Direccion Electronica: ", JLabel.CENTER);
+      JLabel lblDirE = new JLabel("Direccion Electronica: ", JLabel.RIGHT);
       txtDirE = new JTextField(30);
       add(lblDirE);
       add(txtDirE);
-      JLabel lblDiaC = new JLabel("Dia: ", JLabel.CENTER);
+      JLabel lblDiaC = new JLabel("Dia: ", JLabel.RIGHT);
       txtDiaC = new JTextField(30);
       add(lblDiaC);
       add(txtDiaC);
-      JLabel lblMesC = new JLabel("Mes: ", JLabel.CENTER);
+      JLabel lblMesC = new JLabel("Mes: ", JLabel.RIGHT);
       txtMesC = new JTextField(10);
       add(lblMesC);
       add(txtMesC);
-      JLabel lblYearC = new JLabel("Año: ", JLabel.CENTER);
+      JLabel lblYearC = new JLabel("Año: ", JLabel.RIGHT);
       txtYearC = new JTextField(10);
       add(lblYearC);
       add(txtYearC);
@@ -54,17 +55,23 @@ public class PanelAlta extends JPanel implements ActionListener{
    
    public void actionPerformed(ActionEvent e){
       if(e.getSource() == btnGuardar){
-         if(txtNombre.getText() == null || txtNombre.getText().isEmpty()){ 
-            JOptionPane.showMessageDialog(null, "Debes colocar al menos el nombre", "Aviso", JOptionPane.INFORMATION_MESSAGE);
+         if((txtNombre.getText() == null || txtNombre.getText().isEmpty()) || (txtApellidoP.getText() == null || txtApellidoP.getText().isEmpty())){ 
+            JOptionPane.showMessageDialog(null, "Debes colocar al menos el nombre y el apellido paterno", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             txtNombre.requestFocus();
          }else if(txtTelefono.getText() == null || txtTelefono.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Debes capturar su teléfono", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             txtTelefono.requestFocus();
          }else{
+            mP.agregar(txtNombre.getText(), txtApellidoP.getText(), txtApellidoM.getText(), txtTelefono.getText(), txtDirE.getText(), txtDiaC.getText(), txtMesC.getText(), txtYearC.getText());
             JOptionPane.showMessageDialog(null, "Se guardarán los datos", "Aviso", JOptionPane.INFORMATION_MESSAGE);
             txtNombre.setText(null);		
+            txtApellidoP.setText(null);
+            txtApellidoM.setText(null);
             txtTelefono.setText("");
-            txtApellidoP.setText("");
+            txtDirE.setText("");
+            txtDiaC.setText("");
+            txtMesC.setText("");
+            txtYearC.setText("");
             txtNombre.requestFocus();
          }
       }
